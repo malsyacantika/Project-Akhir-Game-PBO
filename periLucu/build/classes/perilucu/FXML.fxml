@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+
+
+<AnchorPane id="AnchorPane" fx:id="ancorr" prefHeight="401.0" prefWidth="221.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="perilucu.FXMLController">
+   <children>
+      <ImageView fx:id="bggame" fitHeight="424.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@pixel%20game/bggame.jpeg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="player" fitHeight="60.0" fitWidth="74.0" layoutX="11.0" layoutY="301.0" onKeyPressed="#moveperi" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@pixel%20game/player.png" />
+         </image>
+         <effect>
+            <DropShadow height="85.24" radius="25.572499999999998" spread="0.63" width="19.05">
+               <color>
+                  <Color red="0.9035087823867798" green="0.825427770614624" blue="0.825427770614624" />
+               </color>
+            </DropShadow>
+         </effect>
+      </ImageView>
+      <Label fx:id="scoreLabel" layoutX="7.0" layoutY="14.0" text="score :" textFill="#f8f4f4" />
+   </children>
+</AnchorPane>
