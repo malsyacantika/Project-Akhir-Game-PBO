@@ -30,7 +30,10 @@ public class FXMLController implements Initializable {
     private Random random = new Random();
     private int score = 0;
     private boolean isFlying = false;
+    private boolean isFrozen = false;
     private long flyEndTime = 0;
+    private long freezeEndTime = 0;
+    private ImageView gameOverImage;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -42,12 +45,22 @@ public class FXMLController implements Initializable {
         // Pastikan area permainan bisa menangkap event keyboard
         ancorr.setOnMouseClicked(event -> ancorr.requestFocus());
 
+        // Inisialisasi gambar game over
+        gameOverImage = new ImageView(new Image(getClass().getResource("/perilucu/pixel game/popupgameover.png").toString()));
+        gameOverImage.setFitWidth(200); // Sesuaikan ukuran
+        gameOverImage.setFitHeight(150); // Sesuaikan ukuran
+        gameOverImage.setLayoutX((ancorr.getWidth() - 200) / 2 + 115); // Posisikan di tengah horizontal dengan pergeseran ke kanan
+        gameOverImage.setLayoutY(50); // Posisikan di atas layar
+        gameOverImage.setVisible(false); // Awalnya disembunyikan
+        ancorr.getChildren().add(gameOverImage);
+        
         // Jalankan loop permainan
         startGameLoop();
     }
 
 @FXML
 private void moveperi(KeyEvent event) {
+    if (isFrozen) return; // Cegah gerakan saat beku
     if (event.getCode() == KeyCode.LEFT) { // Jika tombol panah kiri ditekan
         if (player.getLayoutX() > 0) { // Cegah keluar dari layar di sisi kiri
             player.setLayoutX(player.getLayoutX() - 5); // Geser ke kiri
@@ -80,6 +93,7 @@ private void moveperi(KeyEvent event) {
                 }
                 updateFallingObjects();
                 checkFlyingState(now);
+                checkFrozenState();
                 checkGameOver();
             }
         };
@@ -123,6 +137,8 @@ private void moveperi(KeyEvent event) {
                     score -= 10; // Kurangi skor
                 } else if ("diamond".equals(obj.getUserData())) {
                     startFlying();
+                } else if ("freeze".equals(obj.getUserData())) {
+                    startFreezing();
                 }
 
                 scoreLabel.setText("Score: " + score);
@@ -145,6 +161,12 @@ private void moveperi(KeyEvent event) {
         player.setOpacity(0.7); // Efek transparan untuk mode terbang
     }
 
+    private void startFreezing() {
+        isFrozen = true;
+        freezeEndTime = System.currentTimeMillis() + 5_000; // Beku selama 5 detik
+        player.setOpacity(0.5); // Efek transparan untuk mode beku
+    }
+    
     private void checkFlyingState(long now) {
         if (isFlying && System.currentTimeMillis() > flyEndTime) {
             isFlying = false;
@@ -153,11 +175,12 @@ private void moveperi(KeyEvent event) {
     }
 
     private void checkGameOver() {
-        if (score <= -50) {
+       if (score <= -10) {
             scoreLabel.setText("Game Over!");
             player.setDisable(true); // Nonaktifkan gerakan
             fallingObjects.forEach(obj -> ancorr.getChildren().remove(obj)); // Hapus semua objek
             fallingObjects.clear();
+            gameOverImage.setVisible(true); // Tampilkan gambar game over
         }
     }
 }
