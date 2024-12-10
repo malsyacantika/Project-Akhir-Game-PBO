@@ -18,7 +18,7 @@ public class PeriLucu extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("start.fxml"));
         
         Scene scene = new Scene(root);
         
@@ -34,4 +34,4 @@ public class PeriLucu extends Application {
         launch(args);
     }
     
-} 
+}
