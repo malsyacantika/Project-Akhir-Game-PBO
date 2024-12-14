@@ -203,8 +203,8 @@ public class FXMLController implements Initializable {
     private abstract static class GameObject extends ImageView {
         GameObject(String imagePath) {
             super(new Image(FXMLController.class.getResource(imagePath).toString()));
-            setFitWidth(50);
-            setFitHeight(50);
+            setFitWidth(30);
+            setFitHeight(30);
         }
 
         abstract void applyEffect(FXMLController controller);
